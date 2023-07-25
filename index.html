@@ -8,17 +8,66 @@
 	</head>
 
 	<body>
-		<script> 
+		<script>
+			var true_rarities = [250, 500, 1000, 2000, 5000, 10000, 25000, 50000, 75000, 100000, 250000, 500000, 750000, 1000000, 5000000, 10000000, 100000000, 1000000000, 10000000000, 100000000000, 1000000000000, 5000000000000, 10000000000000];
 			function test() { 
 			   document.getElementById("ur mom").innerHTML = "Haha you pressed it, NERD";
-			} 
+			}
+
+			function sim_power(sauce, rarities) {
+				let rarest_index = 0;
+				for (let i = 0; i < sauce; i++)
+				{
+					let rng = Math.random();
+					for (let r = rarities.length - 1; r >= 0; r--)
+					{
+						if (rarest_index < r)
+						{
+							if (rng < rarities[r])
+								rarest_index = r;
+						}
+					}
+				}
+				return rarest_index;
+			}
+
+			function calc_power(sauce) {
+				let new_rarities = [];
+				let result = 0;
+				let result_index;
+				let multiplier = 1;
+				while (sauce > 10000)
+				{
+					sauce /= 2;
+					multiplier *= 2;
+				}
+				for (let i = 0; i < true_rarities.length; i++)
+				{
+					new_rarities[i] = 1 / (true_rarities[i] / multiplier);
+				}
+				result_index = sim_power(sauce, new_rarities);
+				result = true_rarities[result_index];
+				if (result > 100000000000)
+					result = (result / 1000000000000) + "t";
+				else if (result > 100000000)
+					result = (result / 1000000000) + "b";
+				else if (result > 750000)
+					result = (result / 1000000) + "m";
+				else if (result > 1000)
+					result = (result / 1000) + "k";
+				document.getElementById("power_result").innerHTML = result;
+			}
 		 </script>
 		<h1>Hi achase, I'm messing around with JS</h1>
-		<button onclick="test()">Click me or else</button>
 		<p>
-			<div id="ur mom"></div>
+			Enter the sauce you'd like to calculate powers here: <br>
+			<i><b>NOTE:</b> Abbreviations such as "10m" don't work!</i>
 		</p>
-		
+		<input type="text" id="sauce_input"> <br>
+		<button onclick = "calc_power(document.getElementById('sauce_input').value)">Calculate!</button>
+		<p>
+			<div id="power_result"></div>
+		</p>
 	</body>
 
 </html>
