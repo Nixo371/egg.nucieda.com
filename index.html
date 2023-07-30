@@ -10,9 +10,6 @@
 	<body>
 		<script>
 			var true_rarities = [250, 500, 1000, 2000, 5000, 10000, 25000, 50000, 75000, 100000, 250000, 500000, 750000, 1000000, 5000000, 10000000, 100000000, 1000000000, 10000000000, 100000000000, 1000000000000, 5000000000000, 10000000000000];
-			function test() { 
-			   document.getElementById("ur mom").innerHTML = "Haha you pressed it, NERD";
-			}
 
 			function sim_power(sauce, rarities) {
 				let rarest_index = 0;
@@ -36,10 +33,10 @@
 				let result = 0;
 				let result_index;
 				let multiplier = 1;
-				while (sauce > 10000)
+				if (sauce > 10000)
 				{
-					sauce /= 2;
-					multiplier *= 2;
+					multiplier = sauce / 10000;
+					sauce = 10000;
 				}
 				for (let i = 0; i < true_rarities.length; i++)
 				{
@@ -47,15 +44,72 @@
 				}
 				result_index = sim_power(sauce, new_rarities);
 				result = true_rarities[result_index];
-				if (result > 100000000000)
-					result = (result / 1000000000000) + "t";
-				else if (result > 100000000)
-					result = (result / 1000000000) + "b";
-				else if (result > 750000)
-					result = (result / 1000000) + "m";
-				else if (result > 1000)
-					result = (result / 1000) + "k";
-				document.getElementById("power_result").innerHTML = result;
+				return (result);
+			}
+
+			function shorten_number_by_magnitude(number)
+			{
+				let magnitudes = ['', 'k', 'm', 'b', 't'];
+				let i = 0;
+				while (number >= 1000)
+				{
+					number /= 1000;
+					i++;
+				}
+				return (number + magnitudes[i]);
+			}
+
+			function simple_power_sim(sauce)
+			{
+				reset_list();
+				result = calc_power(sauce);
+				result = shorten_number_by_magnitude(result);
+				if (result == "5t")
+					result = "Glas / Goch";
+				else if (result == "10t")
+					result = "Bla / Rod";
+
+				document.getElementById("power_result").innerHTML = result + "<br>" + document.getElementById("power_result").innerHTML;
+			}
+
+			function multi_power_sim(sauce, amount)
+			{
+				let rarity_count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+				reset_list();
+				for (let i = 0; i < amount; i++)
+				{
+					result = calc_power(sauce);
+					let rarity_index = true_rarities.findIndex(x => x === result);
+					if (rarity_index == -1)
+						return;
+					rarity_count[rarity_index]++;
+					result = shorten_number_by_magnitude(result);
+					update_list(rarity_count, rarity_index, result);
+					//if (result == "5t")
+					//	result = "Glas / Goch";
+					//else if (result == "10t")
+					//	result = "Bla / Rod";
+					// document.getElementById("power_result").innerHTML = result;
+					// I wanted this to "roll" but it doesn't seem to want to
+				}
+			}
+
+			function update_list(rarity_count, rarity_index, rarity)
+			{
+				if (rarity == "5t")
+					document.getElementById("power_result_" + rarity).innerHTML = "Glas / Goch: " + rarity_count[rarity_index];
+				else if (rarity == "10t")
+					document.getElementById("power_result_" + rarity).innerHTML = "Bla / Rod: " + rarity_count[rarity_index];
+				else
+					document.getElementById("power_result_" + rarity).innerHTML = rarity + ": " + rarity_count[rarity_index];
+			}
+
+			function reset_list()
+			{
+				let divs = document.getElementsByName("power");
+				for (let i = 0; i < divs.length; i++)
+					divs[i].innerHTML = "";
 			}
 		 </script>
 		<h1>Hi achase, I'm messing around with JS</h1>
@@ -64,9 +118,39 @@
 			<i><b>NOTE:</b> Abbreviations such as "10m" don't work!</i>
 		</p>
 		<input type="text" id="sauce_input"> <br>
-		<button onclick = "calc_power(document.getElementById('sauce_input').value)">Calculate!</button>
+		<div>
+			<button onclick = "simple_power_sim(document.getElementById('sauce_input').value)">Calculate!</button>
+			<button onclick = "multi_power_sim(document.getElementById('sauce_input').value, 100)">x100</button>
+			<button onclick = "multi_power_sim(document.getElementById('sauce_input').value, 1000)">x1000</button>
+			<button onclick = "multi_power_sim(document.getElementById('sauce_input').value, 10000)">x10k</button>
+			<button onclick = "multi_power_sim(document.getElementById('sauce_input').value, 100000)">x100k</button>
+			<button onclick = "multi_power_sim(document.getElementById('sauce_input').value, 1000000)">x1m</button>
+		</div>
 		<p>
-			<div id="power_result"></div>
+			<div id="power_result" name="power"></div>
+			<div id="power_result_250" name="power"></div>
+			<div id="power_result_500" name="power"></div>
+			<div id="power_result_1k" name="power"></div>
+			<div id="power_result_2k" name="power"></div>
+			<div id="power_result_5k" name="power"></div>
+			<div id="power_result_10k" name="power"></div>
+			<div id="power_result_25k" name="power"></div>
+			<div id="power_result_50k" name="power"></div>
+			<div id="power_result_75k" name="power"></div>
+			<div id="power_result_100k" name="power"></div>
+			<div id="power_result_250k" name="power"></div>
+			<div id="power_result_500k" name="power"></div>
+			<div id="power_result_750k" name="power"></div>
+			<div id="power_result_1m" name="power"></div>
+			<div id="power_result_5m" name="power"></div>
+			<div id="power_result_10m" name="power"></div>
+			<div id="power_result_100m" name="power"></div>
+			<div id="power_result_1b" name="power"></div>
+			<div id="power_result_10b" name="power"></div>
+			<div id="power_result_100b" name="power"></div>
+			<div id="power_result_1t" name="power"></div>
+			<div id="power_result_5t" name="power"></div>
+			<div id="power_result_10t" name="power"></div>
 		</p>
 	</body>
 
