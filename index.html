@@ -77,6 +77,56 @@
 				let rarity_count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 				reset_list();
+				let i = 0;
+				let update_ratio = Math.floor(amount / 1000);
+				let refreshIntervalID = setInterval(function() {
+					if (i < amount && amount <= 1000)
+					{
+						result = calc_power(sauce);
+						let rarity_index = true_rarities.findIndex(x => x === result);
+						if (rarity_index == -1)
+							return;
+						rarity_count[rarity_index]++;
+						result = shorten_number_by_magnitude(result);
+						console.log(result);
+						if (result == "5t")
+							document.getElementById("power_result_" + result).innerHTML = "Glas / Goch: " + rarity_count[rarity_index];
+						else if (result == "10t")
+							document.getElementById("power_result_" + result).innerHTML = "Bla / Rod: " + rarity_count[rarity_index];
+						else
+							document.getElementById("power_result_" + result).innerHTML = result + ": " + rarity_count[rarity_index];
+						update_list(rarity_count, rarity_index, result);
+						i++;
+					}
+					else if (i < amount)
+					{
+						if (amount - i < update_ratio)
+							update_ratio = amount - i;
+						for (let j = 0; j < update_ratio; j++)
+						{
+							result = calc_power(sauce);
+							let rarity_index = true_rarities.findIndex(x => x === result);
+							if (rarity_index == -1)
+								return;
+							rarity_count[rarity_index]++;
+							result = shorten_number_by_magnitude(result);
+							console.log(result);
+							if (result == "5t")
+								document.getElementById("power_result_" + result).innerHTML = "Glas / Goch: " + rarity_count[rarity_index];
+							else if (result == "10t")
+								document.getElementById("power_result_" + result).innerHTML = "Bla / Rod: " + rarity_count[rarity_index];
+							else
+								document.getElementById("power_result_" + result).innerHTML = result + ": " + rarity_count[rarity_index];
+							update_list(rarity_count, rarity_index, result);
+							i++;
+						}
+					}
+					else
+					{
+						clearInterval(refreshIntervalID);
+					}
+				}, 0);
+				/*
 				for (let i = 0; i < amount; i++)
 				{
 					result = calc_power(sauce);
@@ -85,6 +135,13 @@
 						return;
 					rarity_count[rarity_index]++;
 					result = shorten_number_by_magnitude(result);
+					console.log(result);
+					if (result == "5t")
+						document.getElementById("power_result_" + result).innerHTML = "Glas / Goch: " + rarity_count[rarity_index];
+					else if (result == "10t")
+						document.getElementById("power_result_" + result).innerHTML = "Bla / Rod: " + rarity_count[rarity_index];
+					else
+						document.getElementById("power_result_" + result).innerHTML = result + ": " + rarity_count[rarity_index];
 					update_list(rarity_count, rarity_index, result);
 					//if (result == "5t")
 					//	result = "Glas / Goch";
@@ -93,6 +150,7 @@
 					// document.getElementById("power_result").innerHTML = result;
 					// I wanted this to "roll" but it doesn't seem to want to
 				}
+				*/
 			}
 
 			function update_list(rarity_count, rarity_index, rarity)
@@ -104,6 +162,10 @@
 				else
 					document.getElementById("power_result_" + rarity).innerHTML = rarity + ": " + rarity_count[rarity_index];
 			}
+
+			setTimeout(function() {
+				update_list(rarity_count, rarity_index, rarity);
+			}, 0);
 
 			function reset_list()
 			{
