@@ -1,0 +1,26 @@
+[
+    {"name": "egg250", "value": 375, "rarity": 250},
+    {"name": "egg500", "value": 750, "rarity": 500},
+    {"name": "egg1k", "value": 1250, "rarity": 1000},
+    {"name": "egg2k", "value": 2500, "rarity": 2500},
+    {"name": "egg5k", "value": 6250, "rarity": 5000},
+    {"name": "egg10k", "value": 12000, "rarity": 10000},
+    {"name": "egg25k", "value": 30000, "rarity": 25000},
+    {"name": "egg50k", "value": 60000, "rarity": 50000},
+    {"name": "egg75k", "value": 90000, "rarity": 75000},
+    {"name": "egg100k", "value": 100000, "rarity": 100000},
+    {"name": "egg250k", "value": 250000, "rarity": 250000},
+    {"name": "egg500k", "value": 500000, "rarity": 500000},
+    {"name": "egg750k", "value": 750000, "rarity": 750000},
+    {"name": "egg1m", "value": 1000000, "rarity": 1000000},
+    {"name": "egg5m", "value": 4500000, "rarity": 5000000},
+    {"name": "egg10m", "value": 9000000, "rarity": 10000000},
+    {"name": "egg100m", "value": 80000000, "rarity": 100000000},
+    {"name": "egg1b", "value": 700000000, "rarity": 1000000000},
+    {"name": "egg10b", "value": 6000000000, "rarity": 10000000000},
+    {"name": "egg100b", "value": 50000000000, "rarity": 100000000000},
+    {"name": "egg1t", "value": 400000000000, "rarity": 1000000000000},
+    {"name": "egg5t", "value": 0, "rarity": 5000000000000},
+    {"name": "egg10t", "value": 0, "rarity": 10000000000000}
+  ]
+  
