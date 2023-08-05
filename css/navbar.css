@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #333;
+    padding: 10px;
+    flex-wrap: wrap; /* Allow the buttons to wrap to the next line when necessary */
+    font-family: monospace;
+  }
+
+  .nav-title {
+    background-color: #333; /* Match the background color of the navbar */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 5px auto 5px 5px;
+  }
+
+  .nav-title:hover {
+    transform: scale(1.1);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to left, #a915ce, #6d7bfb);
+  }
+  
+  .nav-button {
+    background-color: #555;
+    font-family: monospace;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    flex: 0 0 auto; /* Prevent the buttons from shrinking when they wrap */
+    border-radius: 15px;
+    transition: transform 0.2s;
+  }
+
+  .nav-button:hover {
+    transform: scale(1.1); /* Slightly increase the size on hover */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #a915ce, #6d7bfb);
+    font-weight: 600;
+  }
+
+  .tap-button {
+    background-color: #a22edf;
+  }
+
+  .power-button {
+    background-color: #8e4fe7;
+  }
+
+  .scramble-button {
+    background-color: #7c6fef;
+  }
+
+  .frenzy-button {
+    background-color: #6d7bfb;
+  }
+  
+  /* Media Query for Mobile Devices */
+  @media screen and (max-width: 600px) {
+    .navbar {
+      justify-content: flex-start; /* Align buttons to the left when they stack */
+    }
+
+    .nav-title {
+        margin-right: 0;
+        margin-bottom: 5px;
+      }
+    
+  
+    .nav-button {
+      flex: 1 1 10%; /* Allow the buttons to grow to full width when they stack */
+    }
+  }
+  

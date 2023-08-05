@@ -1,0 +1,21 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+</head>
+<body>
+  <!-- Your page content goes here -->
+  <script>
+    // Fetch and insert the navbar content
+    fetch('../navbar.html')
+        .then(response => response.text())
+        .then(data => {
+        document.getElementById('navbar-container').innerHTML = data;
+        });
+    </script>
+    <div id="navbar-container">
+    <!-- The content of the navbar will be inserted here -->
+    </div>
+    
+    <p>Frenzies</p>
+</body>
+</html>

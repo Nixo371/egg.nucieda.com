@@ -5,12 +5,26 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Egg</title>
+		<link rel="stylesheet" href="css/navbar.css">
 	</head>
 
 	<body>
 		<script src="scripts/tap_simulation.js"></script>
 		<script src="scripts/simulator.js"></script>
 		<script src="scripts/utils.js"></script>
+
+		<div id="navbar-container">
+			<!-- The content of the navbar will be inserted here -->
+		</div>
+		<script>
+		// Fetch and insert the navbar content
+		fetch('navbar.html')
+			.then(response => response.text())
+			.then(data => {
+			document.getElementById('navbar-container').innerHTML = data;
+			});
+		</script>
+		
 		<h1>Hi achase, I'm messing around with JS</h1>
 		<p>
 			Enter the sauce you'd like to calculate powers here: <br>
