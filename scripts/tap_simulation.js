@@ -15,6 +15,7 @@ async function multi_tap_sim(sauce, amount)
     let simulator = new Simulator();
     await simulator.initialize();
 
+    reset_list();
     let values_found = {};
     let num_updates = 1000;
     let i = 0;
@@ -75,9 +76,9 @@ function update_list(values_found)
         name = shorten_number_by_magnitude(Number(name));
         let html_name = name;
         if (name == "5t")
-            html_name = "Glas / Goch: ";
+            html_name = "Glas / Goch";
         else if (name == "10t")
-            html_name = "Bla / Rod: ";
+            html_name = "Bla / Rod";
     
         document.getElementById("power_result_" + name).innerHTML = html_name + ": " + values_found[key];
     }
