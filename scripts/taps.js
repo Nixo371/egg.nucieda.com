@@ -99,14 +99,7 @@ async function multi_tap_sim(sauce, amount)
 
             if (i % (amount / num_updates) == 0)
             {
-                if (amount < num_updates)
-                {
-                    update_expected(sauce*amount, simulator.rarity_list)
-                }
-                else
-                {
-                    update_expected((i+1)*sauce*(amount/num_updates), simulator.rarity_list);
-                }
+                update_expected(((i+1)*num_updates), simulator.rarity_list);
                 update_list(values_found);
             }
         }
