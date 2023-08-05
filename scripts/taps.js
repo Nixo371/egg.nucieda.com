@@ -17,19 +17,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 datalabels: {
                     align: 'end',
                     anchor: 'end'
-                  }
-            }]
+                  }},
+                {
+                    label: 'Expected',
+                    data: [],
+                    borderWidth: 1
+                },
+            ]
         },
         options: {
             plugins: {
             datalabels: {
                 formatter: function(value, context) {
-                    return context.chart.data.datasets[0].data[context.dataIndex].toLocaleString();
+                    return value.toLocaleString();
                 }
             }
             },
             animation: {
-                duration: 10,
+                duration: 1,
             },
             scales: {
             y: {
@@ -94,6 +99,14 @@ async function multi_tap_sim(sauce, amount)
 
             if (i % (amount / num_updates) == 0)
             {
+                if (amount < num_updates)
+                {
+                    update_expected(sauce*amount, simulator.rarity_list)
+                }
+                else
+                {
+                    update_expected((i+1)*sauce*(amount/num_updates), simulator.rarity_list);
+                }
                 update_list(values_found);
             }
         }
@@ -101,8 +114,6 @@ async function multi_tap_sim(sauce, amount)
             clearInterval(looping_moment);
         i++;
     }, 0);
-
-    update_list(values_found);
 }
 
 function update_values_found(previous, current)
@@ -142,6 +153,12 @@ function update_list(values_found)
     tap_chart.update();
 }
 
+function update_expected(current_sauce, labels)
+{
+    tap_chart.data.datasets[1].data = calculateExpected(current_sauce, labels);
+    tap_chart.update();
+}
+
 function reset_list()
 {
     let divs = document.getElementsByName("power");
@@ -157,7 +174,15 @@ function formatNumberWithSuffix(number)
       return (number / 1000000000).toFixed() + 'b';
     } else if (number >= 1000000) {
       return (number / 1000000).toFixed() + 'm';
+    } else if (number >= 1000) {
+        return (number / 1000).toFixed() + 'k';
     } else {
       return number.toString();
     }
-  }
+}
+
+function calculateExpected(taps, labels) 
+{
+    const result = labels.map((label) => Math.floor(taps / label));
+    return result;
+}
