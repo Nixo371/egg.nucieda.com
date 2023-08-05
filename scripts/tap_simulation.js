@@ -10,12 +10,37 @@ function shorten_number_by_magnitude(number)
     return (number + magnitudes[i]);
 }
 
+function get_number_from_text(number)
+{
+    // This returns the number corresponding to the value entered (4t, 2.89b, etc)
+    let magnitudes = ['', 'k', 'm', 'b', 't'];
+    //let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let index = -1;
+    for (let i = 0; i < number.length; i++)
+    {
+        if (magnitudes.includes(number[i]))
+        {
+            index = i;
+        }
+    }
+    if (index == -1)
+        return (+ number);
+    let value = number.slice(0, index);
+    for (let i = 1; i < magnitudes.length; i++)
+    {
+        if (magnitudes[i] == number[index])
+            return (value * 1000);
+        value *= 1000;
+    }
+}
+
 async function multi_tap_sim(sauce, amount)
 {
     let simulator = new Simulator();
     await simulator.initialize();
 
     reset_list();
+    sauce = get_number_from_text(sauce);
     let values_found = {};
     let num_updates = 1000;
     let i = 0;
