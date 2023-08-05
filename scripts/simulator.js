@@ -22,10 +22,10 @@ class Simulator
     {
         if (sauce > 10000)
         {
-            return {"sauce":10000, "multiplier": sauce / 10000};
+            return {"sauce": 10000, "multiplier": sauce / 10000};
         }
 
-        return {"sauce":sauce, "multiplier": 1};
+        return {"sauce": sauce, "multiplier": 1};
     }
 
     simulate_tap(multiplier)
@@ -49,7 +49,7 @@ class Simulator
         let multiplier = multiplier_object['multiplier'];
 
         let values_found = [];
-        for (let i=0; i < sauce; i++)
+        for (let i = 0; i < sauce; i++)
         {
             let value_found = this.simulate_tap(multiplier);
 

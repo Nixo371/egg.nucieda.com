@@ -2,7 +2,7 @@
     {"name": "egg250", "value": 375, "rarity": 250},
     {"name": "egg500", "value": 750, "rarity": 500},
     {"name": "egg1k", "value": 1250, "rarity": 1000},
-    {"name": "egg2k", "value": 2500, "rarity": 2500},
+    {"name": "egg2k", "value": 2500, "rarity": 2000},
     {"name": "egg5k", "value": 6250, "rarity": 5000},
     {"name": "egg10k", "value": 12000, "rarity": 10000},
     {"name": "egg25k", "value": 30000, "rarity": 25000},

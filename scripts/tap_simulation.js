@@ -16,16 +16,23 @@ async function multi_tap_sim(sauce, amount)
     await simulator.initialize();
 
     let values_found = {};
-    for (let i=0; i < amount; i++)
-    {
-        let simulation_result = simulator.tap_simulation(sauce);
-        values_found = update_values_found(values_found, reduce_values_found(simulation_result));
+    let num_updates = 1000;
+    let i = 0;
+    let looping_moment = setInterval(function() {
+        if (i < amount)
+        {
+            let simulation_result = simulator.tap_simulation(sauce);
+            values_found = update_values_found(values_found, reduce_values_found(simulation_result));
 
-         if (i % (amount / 10) == 0) // TODO: this is not working properly, the elements are updated, but it is not displaying the updates?
-         {
-            setTimeout(update_list(values_found), 0);
-         }
-    }
+            if (i % (amount / num_updates) == 0) // TODO: this is not working properly, the elements are updated, but it is not displaying the updates?
+            {
+                update_list(values_found);
+            }
+        }
+        else
+            clearInterval(looping_moment);
+        i++;
+    }, 0);
 
     update_list(values_found);
 }
@@ -61,8 +68,7 @@ function reduce_values_found(values_found)
 }
 
 function update_list(values_found)
-{ 
-    reset_list();
+{
     for (const key in values_found)
     {
         let name = key;
