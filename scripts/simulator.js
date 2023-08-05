@@ -31,9 +31,9 @@ class Simulator
 
     simulate_tap(multiplier)
     {
-        const random_num = Math.random();
         for (const rarity of this.reversed_rarities) 
         {
+            const random_num = Math.random();
             if (random_num < 1 / (rarity / multiplier)) 
             {
                 return rarity;
