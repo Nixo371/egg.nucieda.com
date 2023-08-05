@@ -20,11 +20,12 @@ class Simulator
     
     calculate_multiplier(sauce)
     {
-        if (sauce > 10000)
+        let max_sauce = 1000000;
+        if (sauce > max_sauce)
         {
-            return {"sauce": 10000, "multiplier": sauce / 10000};
+            return {"sauce": max_sauce, "multiplier": sauce / max_sauce};
         }
-
+        console.log("ur mom");
         return {"sauce": sauce, "multiplier": 1};
     }
 

@@ -1,0 +1,30 @@
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #D2D2CF;
+	color: #36454F;
+}
+
+.footer {
+	display: flex;
+}
+
+#names {
+	text-align: center;
+	width: 78%;
+
+	border: blue;
+	border-width: 2px;
+	border-style: solid;
+}
+
+#version {
+	text-align: center;
+	width: 18%;
+	margin-left: auto;
+
+	border: blue;
+	border-width: 2px;
+	border-style: solid;
+}
