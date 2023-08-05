@@ -9,10 +9,6 @@
 	</head>
 
 	<body>
-		<script src="scripts/tap_simulation.js"></script>
-		<script src="scripts/simulator.js"></script>
-		<script src="scripts/utils.js"></script>
-
 		<div id="navbar-container">
 			<!-- The content of the navbar will be inserted here -->
 		</div>
@@ -24,48 +20,6 @@
 			document.getElementById('navbar-container').innerHTML = data;
 			});
 		</script>
-		
-		<h1>Hi achase, I'm messing around with JS</h1>
-		<p>
-			Enter the sauce you'd like to calculate powers here: <br>
-			<i><b>NOTE:</b> Abbreviations such as "10m" work!</i><br>
-			<i>k = 1000 | m = 1000k | b = 1000m | t = 1000b</i>
-		</p>
-		<input type="text" id="sauce_input"> <br>
-		<div>
-			<button onclick = "multi_tap_sim(document.getElementById('sauce_input').value, 1)">Calculate!</button>
-			<button onclick = "multi_tap_sim(document.getElementById('sauce_input').value, 100)">x100</button>
-			<button onclick = "multi_tap_sim(document.getElementById('sauce_input').value, 1000)">x1000</button>
-			<button onclick = "multi_tap_sim(document.getElementById('sauce_input').value, 10000)">x10k</button>
-			<button onclick = "multi_tap_sim(document.getElementById('sauce_input').value, 100000)">x100k</button>
-			<button onclick = "multi_tap_sim(document.getElementById('sauce_input').value, 1000000)">x1m</button>
-		</div>
-		<p>
-			<div id="power_result" name="power"></div>
-			<div id="power_result_250" name="power"></div>
-			<div id="power_result_500" name="power"></div>
-			<div id="power_result_1k" name="power"></div>
-			<div id="power_result_2k" name="power"></div>
-			<div id="power_result_5k" name="power"></div>
-			<div id="power_result_10k" name="power"></div>
-			<div id="power_result_25k" name="power"></div>
-			<div id="power_result_50k" name="power"></div>
-			<div id="power_result_75k" name="power"></div>
-			<div id="power_result_100k" name="power"></div>
-			<div id="power_result_250k" name="power"></div>
-			<div id="power_result_500k" name="power"></div>
-			<div id="power_result_750k" name="power"></div>
-			<div id="power_result_1m" name="power"></div>
-			<div id="power_result_5m" name="power"></div>
-			<div id="power_result_10m" name="power"></div>
-			<div id="power_result_100m" name="power"></div>
-			<div id="power_result_1b" name="power"></div>
-			<div id="power_result_10b" name="power"></div>
-			<div id="power_result_100b" name="power"></div>
-			<div id="power_result_1t" name="power"></div>
-			<div id="power_result_5t" name="power"></div>
-			<div id="power_result_10t" name="power"></div>
-		</p>
 	</body>
 
 </html>

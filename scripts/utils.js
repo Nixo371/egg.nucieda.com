@@ -1,6 +1,6 @@
 async function fetchJSONData() {
     try {
-        const response = await fetch('values.json');
+        const response = await fetch('../values.json');
         const data = await response.json();
         return data;
     } catch (error) {
