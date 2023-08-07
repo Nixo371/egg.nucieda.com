@@ -20,7 +20,7 @@ class Simulator
     
     calculate_multiplier(sauce)
     {
-        let max_sauce = 10000;
+        let max_sauce = 100000;
         if (sauce > max_sauce)
         {
             return {"sauce": max_sauce, "multiplier": sauce / max_sauce};
