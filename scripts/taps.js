@@ -99,8 +99,8 @@ async function multi_tap_sim(sauce, amount)
 
             if (i % (amount / num_updates) == 0)
             {
-                update_expected(((i+1) * sauce), simulator.rarity_list);
                 update_list(values_found);
+                update_expected(((i+1) * sauce), simulator.rarity_list, values_found);
             }
         }
         else
@@ -136,7 +136,15 @@ function reduce_values_found(values_found)
         return counts;
       }, {});
 
-    return counts;
+    const sortedArray = Object.entries(counts).sort(([keyA], [keyB]) => {
+    // Use localeCompare for sorting keys as strings
+    return keyA.localeCompare(keyB);
+    });
+    
+    // Step 2: Convert the sorted array back to an object
+    const sorted_counts = Object.fromEntries(sortedArray);
+
+    return sorted_counts;
 }
 
 function update_list(values_found)
@@ -146,9 +154,17 @@ function update_list(values_found)
     tap_chart.update();
 }
 
-function update_expected(current_sauce, labels)
+function update_expected(current_sauce, labels, values_found)
 {
-    tap_chart.data.datasets[1].data = calculateExpected(current_sauce, labels);
+    expected_dict = calculateExpected(current_sauce, labels);
+    const subset = Object.keys(expected_dict).reduce((acc, key) => {
+        if (values_found.hasOwnProperty(key)) {
+          acc[key] = expected_dict[key];
+        }
+        return acc;
+    }, {});
+
+    tap_chart.data.datasets[1].data = Object.values(subset);
     tap_chart.update();
 }
 
@@ -177,5 +193,12 @@ function formatNumberWithSuffix(number)
 function calculateExpected(taps, labels) 
 {
     const result = labels.map((label) => Math.floor(taps / label));
-    return result;
+
+    // Creating a dictionary with labels as keys
+    const dictionary = labels.reduce((acc, label, index) => {
+        acc[label] = result[index];
+        return acc;
+    }, {});
+
+    return dictionary;
 }
