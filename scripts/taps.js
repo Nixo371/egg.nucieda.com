@@ -202,3 +202,8 @@ function calculateExpected(taps, labels)
 
     return dictionary;
 }
+
+function moreOptions()
+{
+    document.getElementById("more-options-content").classList.toggle("show");
+}

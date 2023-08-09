@@ -20,7 +20,9 @@ class Simulator
     
     calculate_multiplier(sauce)
     {
-        let max_sauce = 100000;
+        let max_sauce = document.getElementById('max-sauce-input').value;
+        if (max_sauce == "")
+            max_sauce = 1000000;
         if (sauce > max_sauce)
         {
             return {"sauce": max_sauce, "multiplier": sauce / max_sauce};

@@ -1,15 +1,65 @@
 .canvas-container {
-    padding: 40px;
+	padding: 40px;
 }
 
 .ui-container {
-    padding: 20px;
+	padding: 20px;
 }
 
 .ui {
-    text-align: center;
+	text-align: center;
 }
 
 .button-container {
-    margin-top: 10px;
+	margin-top: 10px;
 }
+
+.dropdown-button {
+	background-color: gray;
+	color: white;
+	padding: 4px;
+	font-size: 12px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+  }
+  
+  /* The container needed to position the dropdown content */
+  .dropdown {
+	position: relative;
+	display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	padding: 12px;
+  }
+  
+  /* text boxes inside the dropdown */
+  .dropdown-content input {
+		color: black;
+		padding: 4px;
+		text-decoration: none;
+		display: block;
+	}
+
+  .dropdown-line {
+	display: inline-flex;
+	float: left;
+  }
+
+  .dropdown-line p {
+	width: fit-content;
+	white-space: nowrap;
+	margin: auto;
+	margin-left: 8px;
+  }
+  
+  /* Show the dropdown menu */
+  .show {display:block;}
