@@ -4,6 +4,7 @@
     <title>👆 Taps</title>
 
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/footer.css">
     <link rel="stylesheet" type="text/css" href="../css/taps.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -80,5 +81,19 @@
     </div>
 
 </body>
+
+<footer>
+    <div id="footer-container">
+        <!-- The content of the footer will be inserted here -->
+    </div>
+    <script>
+        // Fetch and insert the footer content
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</footer>
 
 </html>
