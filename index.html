@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>🥚 Simulator</title>
-		<link rel="stylesheet" href="css/navbar.css">
-	</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥚 Simulator</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
 
-	<body>
-		<div id="navbar-container">
-			<!-- The content of the navbar will be inserted here -->
-		</div>
-		<script>
-		// Fetch and insert the navbar content
-		fetch('navbar.html')
-			.then(response => response.text())
-			.then(data => {
-			document.getElementById('navbar-container').innerHTML = data;
-			});
-		</script>
-	</body>
+<body>
+    <div id="navbar-container">
+        <!-- The content of the navbar will be inserted here -->
+    </div>
+    <script>
+        // Fetch and insert the navbar content
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
+    </script>
+</body>
+
+<footer>
+    <div id="footer-container">
+        <!-- The content of the footer will be inserted here -->
+    </div>
+    <script>
+        // Fetch and insert the footer content
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</footer>
 
 </html>

@@ -1,22 +1,41 @@
 <html>
+
 <head>
-  <title>🔵 Scrambles</title>
-  <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <title>🔵 Scrambles</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/footer.css">
 </head>
+
 <body>
-  <!-- Your page content goes here -->
-  <script>
-    // Fetch and insert the navbar content
-    fetch('../navbar.html')
-        .then(response => response.text())
-        .then(data => {
-        document.getElementById('navbar-container').innerHTML = data;
-        });
+    <!-- Your page content goes here -->
+    <script>
+        // Fetch and insert the navbar content
+        fetch('../navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
     </script>
     <div id="navbar-container">
-    <!-- The content of the navbar will be inserted here -->
+        <!-- The content of the navbar will be inserted here -->
     </div>
-    
+
     <p>Scrambles</p>
 </body>
+
+<footer>
+    <div id="footer-container">
+        <!-- The content of the footer will be inserted here -->
+    </div>
+    <script>
+        // Fetch and insert the footer content
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</footer>
+
 </html>
