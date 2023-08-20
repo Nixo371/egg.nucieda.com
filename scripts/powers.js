@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         anchor: 'end'
                     }
                 },
-                {
-                    label: 'Expected',
-                    data: [],
-                    borderWidth: 1
-                },
+                // {
+                //     label: 'Expected',
+                //     data: [],
+                //     borderWidth: 1
+                // },
             ]
         },
         options: {
@@ -65,7 +65,7 @@ async function multi_power_sim(sauce, amount) {
             values_found = update_values_found(values_found, reduce_values_found(simulation_result));
 
             update_list(values_found);
-            update_expected(amount, sauce, simulator.rarity_list, values_found);
+            // update_expected(amount, sauce, simulator.rarity_list, values_found);
             // update_expected(((updates + 1) * sauce_per_update), simulator.rarity_list, values_found);
             i++;
             document.getElementById("sauce-remaining").innerHTML = `Sauce Done: ${formatNumberWithSuffix(sauce * i)} (${(sauce * i * 100 / total_sauce).toFixed(2)}%)`;
@@ -138,7 +138,7 @@ function reset_list() {
 }
 
 function calculateExpected(amount, sauce, labels) {
-    const result = labels.map((label) => Math.floor(sauce / label));
+    const result = labels.map((label) => Math.floor(amount * sauce / label));
 
     // Creating a dictionary with labels as keys
     const dictionary = labels.reduce((acc, label, index) => {
