@@ -109,7 +109,8 @@ async function multi_tap_sim(sauce, amount) {
                     update_expected(((updates + 1) * sauce_per_update), simulator.rarity_list, values_found);
 
                     updates++;
-                    console.log(`Sauce Used: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`);
+                    document.getElementById("taps-remaining").innerHTML = `Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`;
+                    console.log(`Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`);
                 } else {
                     clearInterval(update_loop);
                 }
