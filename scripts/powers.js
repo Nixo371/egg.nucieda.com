@@ -46,50 +46,34 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-async function multi_tap_sim(sauce, amount) {
+async function multi_power_sim(sauce, amount) {
     let simulator = new Simulator();
     await simulator.initialize();
 
     reset_list();
     sauce = get_number_from_text(sauce);
+    let total_sauce = sauce * amount;
 
-    let num_updates = sauce / 1000000;
-    if (num_updates < 1) {
-        num_updates = 1;
-    }
-    num_updates = Math.floor(num_updates);
-    let sauce_per_update = sauce / num_updates;
-    // let total_updates = num_updates * amount;
-
-    // console.log(`Updates: ${num_updates}`);
+    // console.log(`Num Updates: ${num_updates}`);
     // console.log(`Update Sauce: ${sauce_per_update}`);
-    // console.log(`Leftover Sauce: ${leftover_sauce}`);
 
+    let values_found = {};
     let i = 0;
     let amount_loop = setInterval(function() {
         if (i < amount) {
-            let values_found = {};
-            let updates = 0;
-            let update_loop = setInterval(function() {
-                if (updates < num_updates) {
-                    let simulation_result = simulator.tap_simulation(sauce_per_update);
-                    values_found = update_values_found(values_found, reduce_values_found(simulation_result));
+            let simulation_result = simulator.power_simulation(sauce);
+            values_found = update_values_found(values_found, reduce_values_found(simulation_result));
 
-                    update_list(values_found);
-                    update_expected(((updates + 1) * sauce_per_update), simulator.rarity_list, values_found);
-
-                    updates++;
-                    document.getElementById("taps-remaining").innerHTML = `Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`;
-                    console.log(`Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`);
-                } else {
-                    clearInterval(update_loop);
-                }
-            })
+            update_list(values_found);
+            update_expected(amount, sauce, simulator.rarity_list, values_found);
+            // update_expected(((updates + 1) * sauce_per_update), simulator.rarity_list, values_found);
+            i++;
+            document.getElementById("sauce-remaining").innerHTML = `Sauce Done: ${formatNumberWithSuffix(sauce * i)} (${(sauce * i * 100 / total_sauce).toFixed(2)}%)`;
         } else {
             clearInterval(amount_loop);
         }
-        i++;
     }, 0);
+
 }
 
 function update_values_found(previous, current) {
@@ -134,8 +118,8 @@ function update_list(values_found) {
     tap_chart.update();
 }
 
-function update_expected(current_sauce, labels, values_found) {
-    expected_dict = calculateExpected(current_sauce, labels);
+function update_expected(amount, sauce, labels, values_found) {
+    expected_dict = calculateExpected(amount, sauce, labels);
     const subset = Object.keys(expected_dict).reduce((acc, key) => {
         if (values_found.hasOwnProperty(key)) {
             acc[key] = expected_dict[key];
@@ -153,8 +137,8 @@ function reset_list() {
         divs[i].innerHTML = "";
 }
 
-function calculateExpected(taps, labels) {
-    const result = labels.map((label) => Math.floor(taps / label));
+function calculateExpected(amount, sauce, labels) {
+    const result = labels.map((label) => Math.floor(sauce / label));
 
     // Creating a dictionary with labels as keys
     const dictionary = labels.reduce((acc, label, index) => {
