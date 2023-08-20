@@ -1,9 +1,10 @@
 <html>
 
 <head>
-    <title>👆 Taps</title>
+    <title>&#x1F446 Taps</title>
 
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/footer.css">
     <link rel="stylesheet" type="text/css" href="../css/taps.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +33,7 @@
     <div class="ui-container">
         <div class="ui">
             <p>
-                Enter the sauce you'd like to calculate powers here: <br>
+                Enter how many taps you'd like to simulate here: <br>
                 <i><b>NOTE:</b> Abbreviations such as "10m" work!</i><br>
                 <i>k = 1000 | m = 1000k | b = 1000m | t = 1000b</i>
             </p>
@@ -82,5 +83,19 @@
     </div>
 
 </body>
+
+<footer>
+    <div id="footer-container">
+        <!-- The content of the footer will be inserted here -->
+    </div>
+    <script>
+        // Fetch and insert the footer content
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</footer>
 
 </html>
