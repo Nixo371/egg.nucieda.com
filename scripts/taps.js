@@ -75,15 +75,16 @@ async function multi_tap_sim(sauce, amount) {
                     let simulation_result = simulator.tap_simulation(sauce_per_update);
                     values_found = update_values_found(values_found, reduce_values_found(simulation_result));
 
-                    update_list(values_found);
-                    update_expected(((updates + 1) * sauce_per_update), simulator.rarity_list, values_found);
+                    let superior_values = purgeWeaklings(sauce, values_found);
+
+                    update_list(superior_values);
+                    update_expected(((updates + 1) * sauce_per_update), simulator.rarity_list, superior_values);
 
                     updates++;
                     document.getElementById("taps-remaining").innerHTML = `Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`;
                     console.log(`Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`);
                     if (updates == num_updates) {
                         let luck_score = calculateLuckScore(values_found, sauce, simulator.rarity_list);
-                        console.log(values_found);
                         document.getElementById("luck-score").innerHTML = `Luck Score: ${luck_score}x`;
                     }
                 } else {
@@ -192,4 +193,16 @@ function calculateExpected(taps, labels) {
     }, {});
 
     return dictionary;
+}
+
+function purgeWeaklings(total_taps, values_found) {
+    let superior_values = {};
+    let weaklings_cutoff = total_taps / 100;
+    for (const key in values_found) {
+        console.log(key);
+        if (Number(key) >= weaklings_cutoff) {
+            superior_values[key] = values_found[key];
+        }
+    }
+    return superior_values;
 }
