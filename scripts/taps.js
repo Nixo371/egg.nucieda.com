@@ -95,10 +95,10 @@ async function multi_tap_sim(sauce, amount) {
     // console.log(`Update Sauce: ${sauce_per_update}`);
     // console.log(`Leftover Sauce: ${leftover_sauce}`);
 
+    var values_found = {};
     let i = 0;
     let amount_loop = setInterval(function() {
         if (i < amount) {
-            let values_found = {};
             let updates = 0;
             let update_loop = setInterval(function() {
                 if (updates < num_updates) {
@@ -111,6 +111,11 @@ async function multi_tap_sim(sauce, amount) {
                     updates++;
                     document.getElementById("taps-remaining").innerHTML = `Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`;
                     console.log(`Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`);
+                    if (updates == num_updates) {
+                        let luck_score = calculateLuckScore(values_found, sauce, simulator.rarity_list);
+                        console.log(values_found);
+                        document.getElementById("luck-score").innerHTML = `Luck Score: ${luck_score}x`;
+                    }
                 } else {
                     clearInterval(update_loop);
                 }
@@ -120,6 +125,30 @@ async function multi_tap_sim(sauce, amount) {
         }
         i++;
     }, 0);
+}
+
+function calculateLuckScore(values_found, sauce, rarities) {
+    let luck_score;
+    let score = calculateCompeteScore(values_found, rarities);
+    let expected_score = 0;
+    rarities.forEach(element => {
+        expected_score += (1 - ((1 - (1 / element)) ** sauce));
+    });
+    expected_score *= sauce;
+    luck_score = score / expected_score;
+    if (luck_score < 1)
+        luck_score = -(1 / luck_score);
+    return luck_score.toFixed(2);
+}
+
+function calculateCompeteScore(values_found, rarities) {
+    let compete_score = 0;
+    let i = 0;
+    for (const key in values_found) {
+        compete_score += Number(key) * values_found[key];
+        i++;
+    }
+    return compete_score;
 }
 
 function update_values_found(previous, current) {
