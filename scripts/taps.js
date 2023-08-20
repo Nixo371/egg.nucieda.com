@@ -197,7 +197,7 @@ function calculateExpected(taps, labels) {
 
 function purgeWeaklings(total_taps, values_found) {
     let superior_values = {};
-    let weaklings_cutoff = total_taps / 100;
+    let weaklings_cutoff = total_taps / 1000;
     for (const key in values_found) {
         console.log(key);
         if (Number(key) >= weaklings_cutoff) {
