@@ -166,15 +166,15 @@ function update_list(values_found, labels) {
     let last_value;
     let chart_values = {};
     for (const key in expected_values) {
+        if (!first_value && expected_values[key] <= max_expected) {
+            first_value = Number(key);
+        }
         if (expected_values[key]) {
             last_value = Number(key);
         }
     }
     for (const rarity of labels) {
         if (values_found[rarity.toString()]) {
-            if (!first_value) {
-                first_value = rarity;
-            }
             if (rarity > last_value) {
                 last_value = rarity;
             }
@@ -182,6 +182,8 @@ function update_list(values_found, labels) {
     }
     let first_value_index = labels.indexOf(first_value, 0);
     let last_value_index = labels.indexOf(last_value, 0);
+    // console.log(`${first_value} | ${last_value}`);
+    // console.log(`${first_value_index} -> ${last_value_index}`);
     let label_keys = [];
     for (let i = 0; i < labels.length; i++) {
         label_keys[i] = labels[i].toString();
