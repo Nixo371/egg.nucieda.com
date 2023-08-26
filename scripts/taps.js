@@ -1,6 +1,7 @@
 let tap_chart;
 let tap_labels = [];
 let tap_data = [];
+let expected_values;
 
 let max_expected = 1000; // how many expected is the max for the graph
 
@@ -71,7 +72,7 @@ async function multi_tap_sim(sauce, amount) {
     let i = 0;
     let amount_loop = setInterval(function() {
         if (i < amount) {
-            let expected_values = update_expected(sauce, simulator.rarity_list);
+            update_expected(sauce, simulator.rarity_list);
             let updates = 0;
             let update_loop = setInterval(function() {
                 if (updates < num_updates) {
@@ -80,7 +81,7 @@ async function multi_tap_sim(sauce, amount) {
 
                     let superior_values = purgeWeaklings(sauce, values_found);
 
-                    update_list(superior_values, simulator.rarity_list, expected_values);
+                    update_list(superior_values, simulator.rarity_list);
 
                     updates++;
                     document.getElementById("taps-remaining").innerHTML = `Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`;
@@ -97,6 +98,7 @@ async function multi_tap_sim(sauce, amount) {
         }
         i++;
     }, 0);
+
 }
 
 function calculateLuckScore(values_found, sauce, rarities) {
@@ -159,7 +161,7 @@ function reduce_values_found(values_found) {
     return sorted_counts;
 }
 
-function update_list(values_found, labels, expected_values) {
+function update_list(values_found, labels) {
     let first_value;
     let last_value;
     let chart_values = {};
@@ -185,10 +187,10 @@ function update_list(values_found, labels, expected_values) {
         label_keys[i] = labels[i].toString();
     }
     for (let i = first_value_index; i <= last_value_index; i++) {
-        if (!values_found[label_keys[i]]) {
-            chart_values[label_keys[i]] = 0;
-        } else {
+        if (values_found[label_keys[i]]) {
             chart_values[label_keys[i]] = values_found[label_keys[i]];
+        } else if (expected_values[label_keys[i]] > 0) {
+            chart_values[label_keys[i]] = 0;
         }
     }
     tap_chart.data.datasets[0].data = Object.values(chart_values);
@@ -197,11 +199,11 @@ function update_list(values_found, labels, expected_values) {
 }
 
 function update_expected(total_taps, labels) {
-    expected_dict = calculateExpected(total_taps, labels);
-    const subset = Object.keys(expected_dict).reduce((acc, key) => {
-        for (const key in expected_dict) {
-            if (expected_dict[key] <= max_expected) {
-                acc[key] = expected_dict[key];
+    expected_values = calculateExpected(total_taps, labels);
+    const subset = Object.keys(expected_values).reduce((acc, key) => {
+        for (const key in expected_values) {
+            if (expected_values[key] <= max_expected) {
+                acc[key] = expected_values[key];
             }
         }
         return acc;
@@ -209,7 +211,6 @@ function update_expected(total_taps, labels) {
 
     tap_chart.data.datasets[1].data = Object.values(subset);
     tap_chart.update();
-    return expected_dict;
 }
 
 function reset_list() {
