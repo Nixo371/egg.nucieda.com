@@ -1,6 +1,9 @@
 let tap_chart;
 let tap_labels = [];
 let tap_data = [];
+let expected_values;
+
+let max_expected = 1000; // how many expected is the max for the graph
 
 document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById('histogram');
@@ -69,6 +72,7 @@ async function multi_tap_sim(sauce, amount) {
     let i = 0;
     let amount_loop = setInterval(function() {
         if (i < amount) {
+            update_expected(sauce, simulator.rarity_list);
             let updates = 0;
             let update_loop = setInterval(function() {
                 if (updates < num_updates) {
@@ -77,12 +81,10 @@ async function multi_tap_sim(sauce, amount) {
 
                     let superior_values = purgeWeaklings(sauce, values_found);
 
-                    update_list(superior_values);
-                    update_expected(((updates + 1) * sauce_per_update), simulator.rarity_list, superior_values);
+                    update_list(superior_values, simulator.rarity_list);
 
                     updates++;
                     document.getElementById("taps-remaining").innerHTML = `Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`;
-                    console.log(`Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`);
                     if (updates == num_updates) {
                         let luck_score = calculateLuckScore(values_found, sauce, simulator.rarity_list);
                         document.getElementById("luck-score").innerHTML = `Luck Score: ${luck_score}x`;
@@ -96,6 +98,7 @@ async function multi_tap_sim(sauce, amount) {
         }
         i++;
     }, 0);
+
 }
 
 function calculateLuckScore(values_found, sauce, rarities) {
@@ -158,17 +161,52 @@ function reduce_values_found(values_found) {
     return sorted_counts;
 }
 
-function update_list(values_found) {
-    tap_chart.data.datasets[0].data = Object.values(values_found);
-    tap_chart.data.labels = Object.keys(values_found).map(formatNumberWithSuffix);
+function update_list(values_found, labels) {
+    let first_value;
+    let last_value;
+    let chart_values = {};
+    for (const key in expected_values) {
+        if (!first_value && expected_values[key] <= max_expected) {
+            first_value = Number(key);
+        }
+        if (expected_values[key]) {
+            last_value = Number(key);
+        }
+    }
+    for (const rarity of labels) {
+        if (values_found[rarity.toString()]) {
+            if (rarity > last_value) {
+                last_value = rarity;
+            }
+        }
+    }
+    let first_value_index = labels.indexOf(first_value, 0);
+    let last_value_index = labels.indexOf(last_value, 0);
+    // console.log(`${first_value} | ${last_value}`);
+    // console.log(`${first_value_index} -> ${last_value_index}`);
+    let label_keys = [];
+    for (let i = 0; i < labels.length; i++) {
+        label_keys[i] = labels[i].toString();
+    }
+    for (let i = first_value_index; i <= last_value_index; i++) {
+        if (values_found[label_keys[i]]) {
+            chart_values[label_keys[i]] = values_found[label_keys[i]];
+        } else if (expected_values[label_keys[i]] > 0) {
+            chart_values[label_keys[i]] = 0;
+        }
+    }
+    tap_chart.data.datasets[0].data = Object.values(chart_values);
+    tap_chart.data.labels = Object.keys(chart_values).map(formatNumberWithSuffix);
     tap_chart.update();
 }
 
-function update_expected(current_sauce, labels, values_found) {
-    expected_dict = calculateExpected(current_sauce, labels);
-    const subset = Object.keys(expected_dict).reduce((acc, key) => {
-        if (values_found.hasOwnProperty(key)) {
-            acc[key] = expected_dict[key];
+function update_expected(total_taps, labels) {
+    expected_values = calculateExpected(total_taps, labels);
+    const subset = Object.keys(expected_values).reduce((acc, key) => {
+        for (const key in expected_values) {
+            if (expected_values[key] <= max_expected) {
+                acc[key] = expected_values[key];
+            }
         }
         return acc;
     }, {});
@@ -197,9 +235,8 @@ function calculateExpected(taps, labels) {
 
 function purgeWeaklings(total_taps, values_found) {
     let superior_values = {};
-    let weaklings_cutoff = total_taps / 1000;
+    let weaklings_cutoff = total_taps / max_expected;
     for (const key in values_found) {
-        console.log(key);
         if (Number(key) >= weaklings_cutoff) {
             superior_values[key] = values_found[key];
         }
