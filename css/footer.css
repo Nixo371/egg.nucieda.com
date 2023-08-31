@@ -6,37 +6,38 @@ body {
 #footer-container {
     display: flex;
     position: fixed;
-    bottom: 0;
+    bottom: 0%;
     width: 100%;
-    height: fit-content;
+    height: 5%;
     background-color: #333;
+    align-items: center;
 
-    /* border: blue;
+    /* border: green;
     border-style: solid;
     border-width: 2px; */
 }
 
 .footer-content {
-    padding: 6px;
-    line-height: 0;
-    height: fit-content;
-    width: fit-content;
     color: white;
     font-size: 18px;
+    height: fit-content;
+    width: fit-content;
+    padding: 0px 10px;
+    position: absolute;
     /* opacity: 75%; */
 
 
-    /* border-color: red;
-    border-style: solid;
-    border-width: 2px; */
+    /* background-color: red; */
 }
 
 #footer-names {
-    position: relative;
     left: 0;
+    margin: auto;
 }
 
 #footer-version {
-    position: inherit;
+    text-decoration: none;
+
     right: 0;
+    margin: auto;
 }

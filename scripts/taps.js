@@ -1,6 +1,9 @@
 let tap_chart;
 let tap_labels = [];
 let tap_data = [];
+let expected_values;
+
+let max_expected = 1000; // how many expected is the max for the graph
 
 document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById('histogram');
@@ -46,58 +49,80 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-function shorten_number_by_magnitude(number) {
-    let magnitudes = ['', 'k', 'm', 'b', 't'];
-    let i = 0;
-    while (number >= 1000) {
-        number /= 1000;
-        i++;
-    }
-    return (number + magnitudes[i]);
-}
-
-function get_number_from_text(number) {
-    // This returns the number corresponding to the value entered (4t, 2.89b, etc)
-    let magnitudes = ['', 'k', 'm', 'b', 't'];
-    //let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    let index = -1;
-    for (let i = 0; i < number.length; i++) {
-        if (magnitudes.includes(number[i])) {
-            index = i;
-        }
-    }
-    if (index == -1)
-        return (+number);
-    let value = number.slice(0, index);
-    for (let i = 1; i < magnitudes.length; i++) {
-        if (magnitudes[i] == number[index])
-            return (value * 1000);
-        value *= 1000;
-    }
-}
-
 async function multi_tap_sim(sauce, amount) {
     let simulator = new Simulator();
     await simulator.initialize();
 
     reset_list();
     sauce = get_number_from_text(sauce);
-    let values_found = {};
-    let num_updates = 1000;
-    let i = 0;
-    let looping_moment = setInterval(function() {
-        if (i < amount) {
-            let simulation_result = simulator.tap_simulation(sauce);
-            values_found = update_values_found(values_found, reduce_values_found(simulation_result));
 
-            if (i % (amount / num_updates) == 0) {
-                update_list(values_found);
-                update_expected(((i + 1) * sauce), simulator.rarity_list, values_found);
-            }
-        } else
-            clearInterval(looping_moment);
+    let num_updates = sauce / 1000000;
+    if (num_updates < 1) {
+        num_updates = 1;
+    }
+    num_updates = Math.floor(num_updates);
+    let sauce_per_update = sauce / num_updates;
+    // let total_updates = num_updates * amount;
+
+    // console.log(`Updates: ${num_updates}`);
+    // console.log(`Update Sauce: ${sauce_per_update}`);
+    // console.log(`Leftover Sauce: ${leftover_sauce}`);
+
+    var values_found = {};
+    let i = 0;
+    let amount_loop = setInterval(function() {
+        if (i < amount) {
+            update_expected(sauce, simulator.rarity_list);
+            let updates = 0;
+            let update_loop = setInterval(function() {
+                if (updates < num_updates) {
+                    let simulation_result = simulator.tap_simulation(sauce_per_update);
+                    values_found = update_values_found(values_found, reduce_values_found(simulation_result));
+
+                    let superior_values = purgeWeaklings(sauce, values_found);
+
+                    update_list(superior_values, simulator.rarity_list);
+
+                    updates++;
+                    document.getElementById("taps-remaining").innerHTML = `Taps Done: ${formatNumberWithSuffix(sauce_per_update * updates)} (${((sauce_per_update * updates * 100) / sauce).toFixed(2)}%)`;
+                    if (updates == num_updates) {
+                        let luck_score = calculateLuckScore(values_found, sauce, simulator.rarity_list);
+                        document.getElementById("luck-score").innerHTML = `Luck Score: ${luck_score}x`;
+                    }
+                } else {
+                    clearInterval(update_loop);
+                }
+            })
+        } else {
+            clearInterval(amount_loop);
+        }
         i++;
     }, 0);
+
+}
+
+function calculateLuckScore(values_found, sauce, rarities) {
+    let luck_score;
+    let score = calculateCompeteScore(values_found, rarities);
+    let expected_score = 0;
+    rarities.forEach(element => {
+        expected_score += (1 - ((1 - (1 / element)) ** sauce));
+    });
+    expected_score *= sauce;
+    luck_score = score / expected_score;
+    if (luck_score < 1)
+        luck_score = -(1 / luck_score);
+    return luck_score.toFixed(2);
+}
+
+function calculateCompeteScore(values_found, rarities) {
+    let compete_score = 0;
+    let i = 0;
+    for (const key in values_found) {
+        compete_score += Number(key) * values_found[key];
+        i++;
+    }
+    return compete_score;
 }
 
 function update_values_found(previous, current) {
@@ -136,17 +161,52 @@ function reduce_values_found(values_found) {
     return sorted_counts;
 }
 
-function update_list(values_found) {
-    tap_chart.data.datasets[0].data = Object.values(values_found);
-    tap_chart.data.labels = Object.keys(values_found).map(formatNumberWithSuffix);
+function update_list(values_found, labels) {
+    let first_value;
+    let last_value;
+    let chart_values = {};
+    for (const key in expected_values) {
+        if (!first_value && expected_values[key] <= max_expected) {
+            first_value = Number(key);
+        }
+        if (expected_values[key]) {
+            last_value = Number(key);
+        }
+    }
+    for (const rarity of labels) {
+        if (values_found[rarity.toString()]) {
+            if (rarity > last_value) {
+                last_value = rarity;
+            }
+        }
+    }
+    let first_value_index = labels.indexOf(first_value, 0);
+    let last_value_index = labels.indexOf(last_value, 0);
+    // console.log(`${first_value} | ${last_value}`);
+    // console.log(`${first_value_index} -> ${last_value_index}`);
+    let label_keys = [];
+    for (let i = 0; i < labels.length; i++) {
+        label_keys[i] = labels[i].toString();
+    }
+    for (let i = first_value_index; i <= last_value_index; i++) {
+        if (values_found[label_keys[i]]) {
+            chart_values[label_keys[i]] = values_found[label_keys[i]];
+        } else if (expected_values[label_keys[i]] > 0) {
+            chart_values[label_keys[i]] = 0;
+        }
+    }
+    tap_chart.data.datasets[0].data = Object.values(chart_values);
+    tap_chart.data.labels = Object.keys(chart_values).map(formatNumberWithSuffix);
     tap_chart.update();
 }
 
-function update_expected(current_sauce, labels, values_found) {
-    expected_dict = calculateExpected(current_sauce, labels);
-    const subset = Object.keys(expected_dict).reduce((acc, key) => {
-        if (values_found.hasOwnProperty(key)) {
-            acc[key] = expected_dict[key];
+function update_expected(total_taps, labels) {
+    expected_values = calculateExpected(total_taps, labels);
+    const subset = Object.keys(expected_values).reduce((acc, key) => {
+        for (const key in expected_values) {
+            if (expected_values[key] <= max_expected) {
+                acc[key] = expected_values[key];
+            }
         }
         return acc;
     }, {});
@@ -161,20 +221,6 @@ function reset_list() {
         divs[i].innerHTML = "";
 }
 
-function formatNumberWithSuffix(number) {
-    if (number >= 1000000000000) {
-        return (number / 1000000000000).toFixed() + 't';
-    } else if (number >= 1000000000) {
-        return (number / 1000000000).toFixed() + 'b';
-    } else if (number >= 1000000) {
-        return (number / 1000000).toFixed() + 'm';
-    } else if (number >= 1000) {
-        return (number / 1000).toFixed() + 'k';
-    } else {
-        return number.toString();
-    }
-}
-
 function calculateExpected(taps, labels) {
     const result = labels.map((label) => Math.floor(taps / label));
 
@@ -186,6 +232,16 @@ function calculateExpected(taps, labels) {
 
     return dictionary;
 }
+
+function purgeWeaklings(total_taps, values_found) {
+    let superior_values = {};
+    let weaklings_cutoff = total_taps / max_expected;
+    for (const key in values_found) {
+        if (Number(key) >= weaklings_cutoff) {
+            superior_values[key] = values_found[key];
+        }
+    }
+    return superior_values;
 
 function setOptionsDefaults() {
     let text_fields = document.getElementsByClassName("options-input");

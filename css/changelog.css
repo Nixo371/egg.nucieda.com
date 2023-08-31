@@ -1,0 +1,36 @@
+.changelog {
+    position: relative;
+    border-color: black;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 4px;
+
+    width: 80%;
+    height: fit-content;
+
+    margin: auto;
+    margin-top: 20px;
+    padding: 16px;
+}
+
+.version-number {
+    font-weight: 700;
+}
+
+.list-item {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    margin-top: 8px;
+    margin-left: 0px;
+}
+
+.sublist-item {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+
+    opacity: 100%;
+    margin-top: 2px;
+    color: #545454;
+    transform: translate(16px);
+    padding-right: 16px;
+}

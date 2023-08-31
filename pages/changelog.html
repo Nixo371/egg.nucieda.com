@@ -1,0 +1,91 @@
+<html>
+
+<head>
+    <title>&#x1F680 Changelog</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/footer.css">
+    <link rel="stylesheet" type="text/css" href="../css/changelog.css">
+</head>
+
+<body>
+    <!-- Your page content goes here -->
+    <script>
+        // Fetch and insert the navbar content
+        fetch('../navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
+    </script>
+    <div id="navbar-container">
+        <!-- The content of the navbar will be inserted here -->
+    </div>
+
+    <h1>Changelog</h1>
+
+    <div class="changelog">
+        <h2 class="version-number">v0.2</h2>
+        <ul class="changes-list">
+            <li class="list-item">
+                Expected values now appear instantly instead of updating during the simulation
+            </li>
+            <li class="list-item">
+                Graph now shows only relevant data
+            <li class="sublist-item">
+                Now shows eggs which were expected but not gotten
+            </li>
+            <li class="sublist-item">
+                No longer shows eggs which were not gotten nor expected
+            </li>
+            </li>
+            <li class="list-item">
+                Graph is now organized by rarity, no more seeing 10t before 5t!
+            </li>
+            <li class="list-item">
+                Added this handy-dandy changelog. Isn't it neat?
+            </li>
+        </ul>
+    </div>
+
+    <div class="changelog">
+        <h2 class="version-number">v0.1</h2>
+        <ul class="changes-list">
+            <li class="list-item">
+                Added taps simulation
+            </li>
+            <li class="list-item">
+                Added powers simulation
+            </li>
+            <li class="list-item">
+                Added graph to simulations to better visualize simulation data
+            <li class="sublist-item">
+                Expected values added to taps simulation
+            </li>
+            </li>
+            <li class="list-item">
+                Added navigation bar as well as footer
+            </li>
+            <li class="list-item">
+                User can now use abbreviations for large numbers (1m instead of 1000000)
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+<footer>
+    <div id="footer-container">
+        <!-- The content of the footer will be inserted here -->
+    </div>
+    <script>
+        // Fetch and insert the footer content
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</footer>
+
+</html>
