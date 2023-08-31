@@ -242,4 +242,21 @@ function purgeWeaklings(total_taps, values_found) {
         }
     }
     return superior_values;
+
+function setOptionsDefaults() {
+    let text_fields = document.getElementsByClassName("options-input");
+    text_fields.namedItem("max-sauce-input").value = "100m";
+}
+
+function moreOptions() {
+    document.getElementById("more-options-content").classList.toggle("show");
+}
+
+function openHelp() {
+    document.getElementById("help-menu-content").classList.toggle("show-menu");
+}
+
+function setup() {
+    // This is for anything we want to run when the page loads
+    setOptionsDefaults();
 }

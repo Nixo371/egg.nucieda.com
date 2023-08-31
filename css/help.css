@@ -1,0 +1,47 @@
+.menu-content {
+    display: none;
+    position: fixed;
+    z-index: 2;
+
+    height: 60%;
+    width: 80%;
+    background-color: #333;
+    color: white;
+
+    padding: 16px;
+    margin: 10% 10%;
+
+    border-color: black;
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 24px;
+}
+
+.x-img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 16px;
+    height: 24px;
+    width: 24px;
+}
+
+.img-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 16px;
+    height: 24px;
+    width: 24px;
+
+    background: transparent;
+    border: none;
+}
+
+.options-name {
+    font-size: 14px;
+}
+
+.show-menu {
+    display: block;
+}
