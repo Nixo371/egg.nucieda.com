@@ -55,6 +55,7 @@ async function multi_tap_sim(sauce, amount) {
 
     reset_list();
     sauce = get_number_from_text(sauce);
+    let max_sauce = get_number_from_text(document.getElementById("max-sauce-input").value);
 
     let num_updates = sauce / 1000000;
     if (num_updates < 1) {
@@ -62,6 +63,7 @@ async function multi_tap_sim(sauce, amount) {
     }
     num_updates = Math.floor(num_updates);
     let sauce_per_update = sauce / num_updates;
+    max_sauce = max_sauce / num_updates;
     // let total_updates = num_updates * amount;
 
     // console.log(`Updates: ${num_updates}`);
@@ -76,7 +78,7 @@ async function multi_tap_sim(sauce, amount) {
             let updates = 0;
             let update_loop = setInterval(function() {
                 if (updates < num_updates) {
-                    let simulation_result = simulator.tap_simulation(sauce_per_update);
+                    let simulation_result = simulator.tap_simulation(sauce_per_update, max_sauce);
                     values_found = update_values_found(values_found, reduce_values_found(simulation_result));
 
                     let superior_values = purgeWeaklings(sauce, values_found);
@@ -242,6 +244,7 @@ function purgeWeaklings(total_taps, values_found) {
         }
     }
     return superior_values;
+}
 
 function setOptionsDefaults() {
     let text_fields = document.getElementsByClassName("options-input");
