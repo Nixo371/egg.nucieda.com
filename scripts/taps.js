@@ -189,7 +189,7 @@ function calculateExpected(taps, labels) {
 
 function setOptionsDefaults() {
     let text_fields = document.getElementsByClassName("options-input");
-    text_fields.namedItem("max-sauce-input").value = "100k";
+    text_fields.namedItem("max-sauce-input").value = "100m";
 }
 
 function moreOptions() {
@@ -198,4 +198,9 @@ function moreOptions() {
 
 function openHelp() {
     document.getElementById("help-menu-content").classList.toggle("show-menu");
+}
+
+function setup() {
+    // This is for anything we want to run when the page loads
+    setOptionsDefaults();
 }

@@ -14,7 +14,7 @@
     <script src="../scripts/utils.js"></script>
 </head>
 
-<body>
+<body onload="setup()">
 
     <!-- Your page content goes here -->
     <script>
@@ -24,6 +24,7 @@
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
             });
+
         // Fetch and insert the help menu content
         fetch('../help.html')
             .then(response => response.text())
@@ -50,7 +51,7 @@
                 <button onclick="moreOptions()" class="dropdown-button">More Options</button>
                 <div id="more-options-content" class="dropdown-content">
                     <div id="max-sauce" class="dropdown-line">
-                        <input type="text" id="max-sauce-input">
+                        <input type="text" class="options-input" id="max-sauce-input">
                         <p>Max Sauce!</p>
                     </div>
                     <div id="options-buttons" class="dropdown-line">
