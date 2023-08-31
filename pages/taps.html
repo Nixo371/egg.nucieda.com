@@ -2,8 +2,9 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="../css/navbar.css">
-    <link rel="stylesheet" type="text/css" href="../css/help.css">
     <link rel="stylesheet" type="text/css" href="../css/taps.css">
+    <link rel="stylesheet" type="text/css" href="../css/footer.css">
+    <link rel="stylesheet" type="text/css" href="../css/help.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
@@ -23,8 +24,7 @@
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
             });
-
-        // Fetch and insert the navbar content
+        // Fetch and insert the help menu content
         fetch('../help.html')
             .then(response => response.text())
             .then(data => {
@@ -35,15 +35,13 @@
     <div id="navbar-container">
         <!-- The content of the navbar will be inserted here -->
     </div>
-
     <div id="help-menu">
         <!-- The content of the help menu will be inserted here -->
     </div>
-
     <div class="ui-container">
         <div class="ui">
             <p>
-                Enter the sauce you'd like to calculate powers here: <br>
+                Enter how many taps you'd like to simulate here: <br>
                 <i><b>NOTE:</b> Abbreviations such as "10m" work!</i><br>
                 <i>k = 1000 | m = 1000k | b = 1000m | t = 1000b</i>
             </p>
@@ -52,7 +50,7 @@
                 <button onclick="moreOptions()" class="dropdown-button">More Options</button>
                 <div id="more-options-content" class="dropdown-content">
                     <div id="max-sauce" class="dropdown-line">
-                        <input type="text" id="max-sauce-input" class="options-input">
+                        <input type="text" id="max-sauce-input">
                         <p>Max Sauce!</p>
                     </div>
                     <div id="options-buttons" class="dropdown-line">
@@ -106,5 +104,18 @@
     </div>
 
 </body>
+<footer>
+    <div id="footer-container">
+        <!-- The content of the footer will be inserted here -->
+    </div>
+    <script>
+        // Fetch and insert the footer content
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+</footer>
 
 </html>
