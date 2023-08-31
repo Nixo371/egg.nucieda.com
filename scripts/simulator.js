@@ -13,8 +13,7 @@ class Simulator {
         // Also store the reversed rarities for convenience
         this.reversed_rarities = this.rarity_list.slice().reverse();
     }
-    calculate_multiplier(sauce) {
-        let max_sauce = 100000;
+    calculate_multiplier(sauce, max_sauce) {
         if (sauce > max_sauce) {
             return {
                 "sauce": max_sauce,
@@ -38,8 +37,8 @@ class Simulator {
         return 0;
     }
 
-    tap_simulation(sauce) {
-        let multiplier_object = this.calculate_multiplier(sauce);
+    tap_simulation(sauce, max_sauce) {
+        let multiplier_object = this.calculate_multiplier(sauce, max_sauce);
         sauce = multiplier_object['sauce'];
         let multiplier = multiplier_object['multiplier'];
 
