@@ -1,3 +1,70 @@
-#working {
-    font-size: 100px;
+.canvas-container {
+    padding: 60px;
+}
+
+.ui-container {
+    padding: 20px;
+}
+
+.ui {
+    text-align: center;
+}
+
+.button-container {
+    margin-top: 10px;
+}
+
+.scramble-grid {
+
+    display: flex;
+
+    justify-content: center;
+    align-content: center;
+
+    max-width: 100%;
+    height: 60vh;
+}
+
+.grid {
+
+    display: flex;
+    max-width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.cell {
+
+    justify-content: center;
+
+
+    display: inline-flex;
+    margin: 1.49%;
+    aspect-ratio: 1 / 1;
+    width: 30%;
+}
+
+.scramble-cell-text {
+
+    position: absolute;
+    font-size: 40px;
+    justify-self: center;
+    align-self: center;
+}
+
+.scramble-cell-button {
+    background: transparent;
+    border: none !important;
+
+    position: absolute;
+    justify-self: center;
+    align-self: center;
+
+    aspect-ratio: 1 / 1;
+    height: 15vh;
+
+}
+
+.egg-image {
+    object-fit: contain;
 }
