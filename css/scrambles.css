@@ -21,7 +21,7 @@
     justify-content: center;
     align-content: center;
 
-    height: 60%;
+    height: 60vh;
     width: 100%;
 }
 
@@ -33,7 +33,7 @@
     display: flex;
     max-width: 100%;
     height: 100%;
-    width: 60%;
+    aspect-ratio: 1 / 1;
 }
 
 .cell {
@@ -70,24 +70,6 @@
 .egg-image {
     object-fit: contain;
 }
-
-#cell-1 p {}
-
-#cell-2 p {}
-
-#cell-3 p {}
-
-#cell-4 p {}
-
-#cell-5 p {}
-
-#cell-6 p {}
-
-#cell-7 p {}
-
-#cell-8 p {}
-
-#cell-9 p {}
 
 .select {
     color: red;
