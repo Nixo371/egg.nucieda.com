@@ -9,6 +9,7 @@ async function multi_scramble_sim(sauce, amount) {
 
     sauce = get_number_from_text(sauce);
     revealed_eggs = 0;
+    reset_selected();
 
     let values_found = {};
     let i = 0;
@@ -18,7 +19,7 @@ async function multi_scramble_sim(sauce, amount) {
             values_found = update_values_found(values_found, reduce_values_found(simulation_result));
 
             scramble_values = update_grid(values_found, simulator.reversed_rarities);
-            setTimeout(hide_scramble, 1500);
+            setTimeout(hide_scramble, 2500);
             scramble(scramble_values);
             ready_for_click = true;
             i++;
@@ -71,7 +72,9 @@ function click_scramble(cell) {
     }
 
     cells[cell - 1].innerHTML = formatNumberWithSuffix(String(scramble_values[cell - 1]));
+    cells[cell - 1].classList.add("select");
     revealed_eggs++;
+
 
     if (revealed_eggs == 3) {
         setTimeout(reveal_all_eggs, 1000);
@@ -99,6 +102,12 @@ function update_values_found(previous, current) {
     }
 
     return sum_object;
+}
+
+function reset_selected() {
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].classList.remove("select");
+    }
 }
 
 // Reduces a list of values found into a concise form.
